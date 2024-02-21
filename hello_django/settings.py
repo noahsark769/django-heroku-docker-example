@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
 
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'quiet-harbor-46242.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'quiet-harbor-46242-56ca4adc75c1.herokuapp.com']
 
 
 # Application definition
@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'hello_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

@@ -1,20 +1,16 @@
-# pull official base image
-FROM python:3.9-alpine
+# Pull base image
+FROM python:3.9-slim-buster
 
-# set work directory
-WORKDIR /app
+# Install psql so that "python manage.py dbshell" works
+RUN apt-get update && \
+apt-get install -y libpq-dev gcc
 
-# set environment variables
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
 
-# install psycopg2
-RUN apk update \
-    && apk add --virtual build-essential gcc python3-dev musl-dev libffi-dev openssl-dev g++ \
-    && apk add postgresql-dev libevent-dev make
-
-RUN pip3 install --upgrade pip && pip3 install --upgrade setuptools
+# Set work directory
+WORKDIR /app
 
 # install dependencies
 COPY ./requirements.txt .
@@ -24,7 +20,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # add and run as non-root user
-RUN adduser -D myuser
+RUN adduser --disabled-login myuser
 USER myuser
 
 # run gunicorn
